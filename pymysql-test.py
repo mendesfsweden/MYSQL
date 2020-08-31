@@ -1,7 +1,8 @@
 import os
+import datetime
 import pymysql
 
-# Get username from Cloud9 workspace
+# Get the username from the Cloud9 workspace
 # (modify this variable if running on another environment)
 username = os.getenv('C9_USER')
 
@@ -12,13 +13,8 @@ connection = pymysql.connect(host='localhost',
                              db='Chinook')
 
 try:
-    # Run a query
     with connection.cursor() as cursor:
-        sql = "SELECT * FROM Artist;"
-        cursor.execute(sql)
-        result = cursor.fetchall()
-        print(result)
+        cursor.executemany("DELETE FROM Friends WHERE name = %s;", ['jim', 'fred'])
+        connection.commit()
 finally:
-    # Close the connection, regardless of
-    # whether or not the above was successful
     connection.close()
